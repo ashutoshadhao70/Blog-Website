@@ -11,5 +11,5 @@ export const AppDataSource = new DataSource({
     database: "Blog_App",
     entities: [User, Post],
     synchronize: true,
-    logging: true
+    // logging: true
 });

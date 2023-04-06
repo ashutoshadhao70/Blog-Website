@@ -1,7 +1,7 @@
 import express, { Request, Response } from 'express';
 import { User } from '../entites/User';
 import { AppDataSource } from '../config/database';
-import { Post } from '../entites/Post';
+
 
 export const register = async (req: Request, res: Response) => {
     try {
@@ -49,22 +49,15 @@ export const login = async (req: Request, res: Response) => {
         });
     }
 }
-
-export const createPost = async (req: Request, res: Response) => {
+export const getAllUser = async (req: Request, res: Response) => {
     try {
-        const postRepo = AppDataSource.getRepository(Post);
-        const { image, description, title } = req.body;
 
-        let post: Post = new Post();
-
-        post.image = image;
-        post.description = description;
-        post.title = title;
-        
-        const createdPost: Post = await postRepo.save(post)
+        const userRepo = AppDataSource.getRepository(User);
+        const getAllUser = await userRepo.find({ relations: { posts: true } });
+        // const getAllUser = await userRepo.find({ where: { name: "ashutosh" } });
         res.status(200).json({
             success: true,
-            createdPost,
+            getAllUser
         }
         );
     } catch (error) {
@@ -75,3 +68,4 @@ export const createPost = async (req: Request, res: Response) => {
         });
     }
 }
+
